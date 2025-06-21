@@ -67,6 +67,93 @@
       letter-spacing: 0.1em;
     }
 
+    /* Personal Recovery Dashboard */
+    .personal-recovery-section {
+      width: 97%;
+      max-width: 420px;
+      margin: 2.2rem auto 0 auto;
+      background: var(--surface);
+      border-radius: 1.2rem;
+      box-shadow: 0 2px 18px 0 #1e293b22;
+      padding: 2rem 1.4rem 2.2rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1.2px solid var(--border);
+      position: relative;
+    }
+    .personal-title {
+      color: var(--accent);
+      font-size: 1.16rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      margin-bottom: 0.5rem;
+    }
+    .personal-balance-label {
+      color: var(--primary);
+      font-size: 1.04rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.05em;
+    }
+    .personal-balance-amount {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--secondary);
+      margin-bottom: 1.2rem;
+      text-shadow: 0 3px 20px #2dd4bf66;
+      letter-spacing: 1px;
+      min-height: 2.2rem;
+    }
+    .personal-request-btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.85rem 2.2rem;
+      font-size: 1.13rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 0.7rem;
+      margin-bottom: 0.8rem;
+      box-shadow: 0 2px 16px 0 rgba(46,91,255,0.10);
+      transition: transform 0.14s, box-shadow 0.14s;
+      letter-spacing: 1px;
+    }
+    .personal-request-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .personal-request-btn:hover:enabled {
+      transform: scale(1.06);
+      box-shadow: 0 6px 32px 0 rgba(46,91,255,0.18);
+    }
+    .personal-processing {
+      color: var(--accent);
+      font-size: 1.07rem;
+      margin-top: 0.3rem;
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      min-height: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .spinner {
+      width: 22px; height: 22px;
+      border: 3px solid var(--primary);
+      border-top: 3px solid var(--secondary);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+
     .dashboard-actions {
       display: flex;
       flex-direction: row;
@@ -87,32 +174,6 @@
       flex-direction: column;
       align-items: center;
       border: 1.2px solid var(--border);
-    }
-    .request-btn {
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      padding: 1.13rem 2.8rem;
-      font-size: 1.2rem;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 1.1rem;
-      margin-bottom: 0.8rem;
-      box-shadow: 0 2px 16px 0 rgba(46,91,255,0.10);
-      transition: transform 0.14s, box-shadow 0.14s;
-      letter-spacing: 1px;
-    }
-    .request-btn:hover {
-      transform: scale(1.06);
-      box-shadow: 0 6px 32px 0 rgba(46,91,255,0.18);
-    }
-    .request-caption {
-      color: var(--accent);
-      font-size: 1.07rem;
-      font-weight: 600;
-      margin-bottom: 0.6rem;
-      margin-top: 0.1rem;
     }
     .divider {
       width: 100%;
@@ -288,8 +349,6 @@
       letter-spacing: -1px;
       text-shadow: 0 3px 20px #22c55e33;
     }
-
-    /* Spinning robot wheel */
     .spinning-wheel {
       margin: 0.6rem auto 0 auto;
       width: 74px;
@@ -306,10 +365,6 @@
       justify-content: center;
       position: relative;
       margin-bottom: 1.1rem;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg);}
-      100% { transform: rotate(360deg);}
     }
     .ai-robot-face {
       position: absolute;
@@ -347,6 +402,7 @@
       .token-balance-section { max-width: 98vw; }
       .token-list-section { max-width: 98vw; }
       .ai-robot-section { max-width: 99vw; }
+      .personal-recovery-section { max-width: 99vw; }
     }
   </style>
 </head>
@@ -359,12 +415,14 @@
       </div>
       <div class="recovered-label">TOTAL AMOUNT RECOVERED</div>
     </div>
-    <div class="dashboard-actions">
-      <div class="action-card">
-        <div class="request-caption">You can request up to</div>
-        <div style="font-size:2.1rem; font-weight:700; color:var(--secondary); margin-bottom:0.75rem;">77,000 USDT</div>
-        <button class="request-btn">Request My Lost Money</button>
-      </div>
+    
+    <!-- Personal Recovery Dashboard -->
+    <div class="personal-recovery-section" id="personal-recovery-section">
+      <div class="personal-title">MY PERSONAL RECOVERY</div>
+      <div class="personal-balance-label">Recovered Balance</div>
+      <div class="personal-balance-amount" id="personal-balance-amount">0.00 USDT</div>
+      <button class="personal-request-btn" id="personal-request-btn">Request My Recovery</button>
+      <div class="personal-processing" id="personal-processing"></div>
     </div>
 
     <div class="token-balance-section" id="token-balance-section">
@@ -471,9 +529,30 @@
       aiAmountEl.textContent = "$" + aiAmount.toLocaleString(undefined, {maximumFractionDigits:0});
     }, 1600);
 
-    // Request button handler
-    document.querySelector('.request-btn').onclick = function() {
-      alert('Request for your lost crypto up to 77,000 USDT initiated!\n\nOur AI bots will start the recovery process for your assets.');
+    // Personal Recovery Dashboard Logic
+    const personalBtn = document.getElementById('personal-request-btn');
+    const personalBalance = document.getElementById('personal-balance-amount');
+    const personalProcessing = document.getElementById('personal-processing');
+    let personalRecoveryRequested = false;
+    personalBtn.onclick = function() {
+      if(personalRecoveryRequested) return;
+      personalRecoveryRequested = true;
+      personalBtn.disabled = true;
+      personalProcessing.innerHTML = `<span class="spinner"></span> Hold on while we process your request...`;
+      // Animate from 0 to 77,000 over ~3 seconds
+      let target = 77000, duration = 3000, frame = 30, steps = duration / frame, current = 0, stepAmount = target/steps;
+      let step = 0;
+      const interval = setInterval(()=>{
+        step++;
+        current += stepAmount;
+        if(current > target) current = target;
+        personalBalance.textContent = current.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + " USDT";
+        if(step >= steps) {
+          clearInterval(interval);
+          personalBalance.textContent = target.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + " USDT";
+          personalProcessing.innerHTML = `<span style="color:var(--success);font-weight:700;">Success!</span> Your recovery is complete.`;
+        }
+      }, frame);
     };
   </script>
 </body>
