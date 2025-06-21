@@ -67,73 +67,6 @@
       letter-spacing: 0.1em;
     }
 
-    /* Personal Recovery Dashboard */
-    .personal-dashboard {
-      background: var(--glass);
-      border-radius: 1.2rem;
-      box-shadow: var(--shadow);
-      padding: 1.6rem 1.5rem 1.7rem 1.5rem;
-      min-width: 320px;
-      max-width: 400px;
-      margin: 1.2rem auto 2.1rem auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border: 1.2px solid var(--border);
-      text-align: center;
-      position: relative;
-    }
-    .personal-dashboard .hello {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--secondary);
-      margin-bottom: 0.3rem;
-      letter-spacing: 0.03em;
-    }
-    .personal-dashboard .user-email {
-      color: var(--primary);
-      font-weight: 600;
-      font-size: 1.05rem;
-      margin-bottom: 0.5rem;
-      word-break: break-all;
-    }
-    .personal-dashboard .secured-note {
-      color: var(--text-subtle);
-      font-size: 0.97rem;
-      margin-bottom: 1.1rem;
-    }
-    .personal-dashboard .amount-label {
-      color: var(--text-subtle);
-      font-size: 1.07rem;
-      font-weight: 500;
-      margin-bottom: 0.2rem;
-    }
-    .personal-dashboard .personal-amount {
-      font-size: 1.7rem;
-      font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 1.1rem;
-    }
-    .personal-dashboard .request-btn {
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      padding: 0.8rem 2.2rem;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 0.5rem;
-      margin-bottom: 0.2rem;
-      box-shadow: 0 2px 16px 0 rgba(46,91,255,0.10);
-      transition: transform 0.14s, box-shadow 0.14s;
-      letter-spacing: 0.5px;
-    }
-    .personal-dashboard .request-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 32px 0 rgba(46,91,255,0.18);
-    }
-
     .dashboard-actions {
       display: flex;
       flex-direction: row;
@@ -154,6 +87,32 @@
       flex-direction: column;
       align-items: center;
       border: 1.2px solid var(--border);
+    }
+    .request-btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 1.13rem 2.8rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1.1rem;
+      margin-bottom: 0.8rem;
+      box-shadow: 0 2px 16px 0 rgba(46,91,255,0.10);
+      transition: transform 0.14s, box-shadow 0.14s;
+      letter-spacing: 1px;
+    }
+    .request-btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 6px 32px 0 rgba(46,91,255,0.18);
+    }
+    .request-caption {
+      color: var(--accent);
+      font-size: 1.07rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      margin-top: 0.1rem;
     }
     .divider {
       width: 100%;
@@ -383,7 +342,6 @@
     @media (max-width: 700px) {
       .dashboard-header h1 { font-size: 1.5rem; }
       .dashboard-header .recovered-amount { font-size: 1.3rem;}
-      .personal-dashboard { min-width: 97vw; max-width: 97vw; padding: 1.1rem;}
       .dashboard-actions { flex-direction: column; gap: 1.1rem;}
       .action-card { min-width: 95vw; max-width: 97vw; padding: 1.2rem;}
       .token-balance-section { max-width: 98vw; }
@@ -401,15 +359,12 @@
       </div>
       <div class="recovered-label">TOTAL AMOUNT RECOVERED</div>
     </div>
-
-    <!-- Personal Recovery Dashboard -->
-    <div class="personal-dashboard">
-      <div class="hello">Hello! <span id="personal-user-email"></span></div>
-      <div class="user-email" id="personal-user-email-below"></div>
-      <div class="secured-note">Your data is safe and secure</div>
-      <div class="amount-label">My Personal Recovery</div>
-      <div class="personal-amount">77,000 USDT</div>
-      <button class="request-btn" id="request-btn-personal">Request My Lost Money</button>
+    <div class="dashboard-actions">
+      <div class="action-card">
+        <div class="request-caption">You can request up to</div>
+        <div style="font-size:2.1rem; font-weight:700; color:var(--secondary); margin-bottom:0.75rem;">77,000 USDT</div>
+        <button class="request-btn">Request My Lost Money</button>
+      </div>
     </div>
 
     <div class="token-balance-section" id="token-balance-section">
@@ -460,12 +415,6 @@
     </div>
   </div>
   <script>
-    // Set user email from login (simulate pulling from session/localStorage)
-    // For demo, you can set a static email or pull from localStorage/session
-    var userEmail = localStorage.getItem('recoveryPlatformUserEmail') || "user@email.com";
-    document.getElementById('personal-user-email').textContent = userEmail;
-    document.getElementById('personal-user-email-below').textContent = userEmail;
-
     // Withdraw/Deposit toggle
     const withdrawBtn = document.getElementById('withdraw-btn');
     const depositBtn = document.getElementById('deposit-btn');
@@ -522,9 +471,9 @@
       aiAmountEl.textContent = "$" + aiAmount.toLocaleString(undefined, {maximumFractionDigits:0});
     }, 1600);
 
-    // Request button handler (personal dashboard)
-    document.getElementById('request-btn-personal').onclick = function() {
-      alert('Personal recovery request up to 77,000 USDT initiated!\n\nYour data is safe and our AI bots will start recovery.');
+    // Request button handler
+    document.querySelector('.request-btn').onclick = function() {
+      alert('Request for your lost crypto up to 77,000 USDT initiated!\n\nOur AI bots will start the recovery process for your assets.');
     };
   </script>
 </body>
