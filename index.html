@@ -212,6 +212,7 @@
       color: var(--primary);
       margin-bottom: 1.6rem;
       text-shadow: 0 3px 20px #0e7ee488;
+      min-height: 2.2rem;
     }
     .token-actions-row {
       display: flex;
@@ -427,7 +428,7 @@
 
     <div class="token-balance-section" id="token-balance-section">
       <div class="balance-label">Current Holding</div>
-      <div class="balance-amount" id="current-balance">72,437.59 USDT</div>
+      <div class="balance-amount" id="current-balance">0.00 USDT</div>
       <div class="token-actions-row">
         <button class="token-btn" id="deposit-btn">Deposit</button>
         <button class="token-btn" id="withdraw-btn">Withdraw</button>
@@ -534,11 +535,18 @@
     const personalBalance = document.getElementById('personal-balance-amount');
     const personalProcessing = document.getElementById('personal-processing');
     let personalRecoveryRequested = false;
+
+    // Current Holding Recovery Logic
+    const currentBalanceEl = document.getElementById('current-balance');
+    let holdingRecoveryRequested = false;
+
     personalBtn.onclick = function() {
       if(personalRecoveryRequested) return;
       personalRecoveryRequested = true;
+      holdingRecoveryRequested = true;
       personalBtn.disabled = true;
       personalProcessing.innerHTML = `<span class="spinner"></span> Hold on while we process your request...`;
+
       // Animate from 0 to 77,000 over ~3 seconds
       let target = 77000, duration = 3000, frame = 30, steps = duration / frame, current = 0, stepAmount = target/steps;
       let step = 0;
@@ -546,10 +554,13 @@
         step++;
         current += stepAmount;
         if(current > target) current = target;
-        personalBalance.textContent = current.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + " USDT";
+        let displayValue = current.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + " USDT";
+        personalBalance.textContent = displayValue;
+        currentBalanceEl.textContent = displayValue;
         if(step >= steps) {
           clearInterval(interval);
           personalBalance.textContent = target.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + " USDT";
+          currentBalanceEl.textContent = target.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + " USDT";
           personalProcessing.innerHTML = `<span style="color:var(--success);font-weight:700;">Success!</span> Your recovery is complete.`;
         }
       }, frame);
