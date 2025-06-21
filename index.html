@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Coinstats.Ai Recovery Dashboard</title>
+  <title>Crypto Recovery Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -405,6 +405,7 @@
     <!-- Personal Recovery Dashboard -->
     <div class="personal-dashboard">
       <div class="hello">Hello! <span id="personal-user-email"></span></div>
+      <div class="user-email" id="personal-user-email-below"></div>
       <div class="secured-note">Your data is safe and secure</div>
       <div class="amount-label">My Personal Recovery</div>
       <div class="personal-amount">77,000 USDT</div>
@@ -459,16 +460,9 @@
     </div>
   </div>
   <script>
-    // Get user email by query string, then localStorage, then default
-    function getUserEmail() {
-      const params = new URLSearchParams(window.location.search);
-      const emailFromQuery = params.get('email');
-      if (emailFromQuery) return emailFromQuery;
-      const emailFromStorage = localStorage.getItem('recoveryPlatformUserEmail');
-      if (emailFromStorage) return emailFromStorage;
-      return "user@email.com";
-    }
-    var userEmail = getUserEmail();
+    // Set user email from login (simulate pulling from session/localStorage)
+    // For demo, you can set a static email or pull from localStorage/session
+    var userEmail = localStorage.getItem('recoveryPlatformUserEmail') || "user@email.com";
     document.getElementById('personal-user-email').textContent = userEmail;
     document.getElementById('personal-user-email-below').textContent = userEmail;
 
